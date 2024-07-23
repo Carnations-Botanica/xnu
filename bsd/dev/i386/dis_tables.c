@@ -2243,6 +2243,7 @@ const instable_t dis_distable[16][16] = {
 }, {
 /* [D,0] */	IND(dis_opD0),		IND(dis_opD1),		IND(dis_opD2),		IND(dis_opD3),
 /* [D,4] */	TNSx("aam",U),		TNSx("aad",U),		TNSx("falc",NORM),	TNSZ("xlat",IMPLMEM,1),
+/* [D,8] */ TNS("svm", NORM), /* Added prelimnary SVM detection, this is a stub. */
 
 /* 287 instructions.  Note that although the indirect field		*/
 /* indicates opFP1n2 for further decoding, this is not necessarily	*/
