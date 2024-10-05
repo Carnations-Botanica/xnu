@@ -182,7 +182,7 @@
 
 #include "kern_exec_internal.h"
 
-#include <CodeSignature/Entitlements.h>
+#include <CoreEntitlements/CoreEntitlements.h>
 
 #include <mach/exclaves.h>
 
