@@ -620,45 +620,12 @@ cpuid_set_generic_info(i386_cpu_info_t *info_p)
 static uint32_t
 cpuid_set_cpufamily(i386_cpu_info_t *info_p)
 {
-	uint32_t cpufamily = CPUFAMILY_UNKNOWN;
-
-	switch (info_p->cpuid_family) {
-	case 6:
-		switch (info_p->cpuid_model) {
-		case 13:
-			cpufamily = CPUFAMILY_INTEL_6_13;
-			break;
-		case 14:
-			cpufamily = CPUFAMILY_INTEL_YONAH;
-			break;
-		case 15:
-			cpufamily = CPUFAMILY_INTEL_MEROM;
-			break;
-		case 23:
-			cpufamily = CPUFAMILY_INTEL_PENRYN;
-			break;
-		case CPUID_MODEL_NEHALEM:
-		case CPUID_MODEL_FIELDS:
-		case CPUID_MODEL_DALES:
-		case CPUID_MODEL_NEHALEM_EX:
-			cpufamily = CPUFAMILY_INTEL_NEHALEM;
-			break;
-		case CPUID_MODEL_DALES_32NM:
-		case CPUID_MODEL_WESTMERE:
-		case CPUID_MODEL_WESTMERE_EX:
-			cpufamily = CPUFAMILY_INTEL_WESTMERE;
-			break;
-		case CPUID_MODEL_SANDYBRIDGE:
-		case CPUID_MODEL_JAKETOWN:
-			cpufamily = CPUFAMILY_INTEL_SANDYBRIDGE;
-			break;
-		}
-		break;
-	}
+	uint32_t cpufamily = CPUFAMILY_INTEL_PENRYN;
 
 	info_p->cpuid_cpufamily = cpufamily;
 	return cpufamily;
 }
+
 /*
  * Must be invoked either when executing single threaded, or with
  * independent synchronization.
@@ -695,7 +662,6 @@ cpuid_set_info(void)
 		info_p->thread_count = bitfield32((uint32_t)msr, 15,  0);
 		break;
 		}
-	case CPUFAMILY_INTEL_SANDYBRIDGE:
 	case CPUFAMILY_INTEL_NEHALEM: {
 		uint64_t msr = rdmsr64(MSR_CORE_THREAD_COUNT);
 		info_p->core_count   = bitfield32((uint32_t)msr, 31, 16);
