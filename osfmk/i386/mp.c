@@ -362,7 +362,7 @@ start_cpu(void *arg)
 			psip->target_cpu, tsc_target, tsc_delta, tsc_delta);
 		if (ABS(tsc_delta) > (int64_t) TSC_sync_margin) { 
 #if DEBUG
-			panic(
+			printf(
 #else
 			printf(
 #endif

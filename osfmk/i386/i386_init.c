@@ -96,6 +96,7 @@
 #include <i386/Diagnostics.h>
 #include <i386/pmCPU.h>
 #include <i386/tsc.h>
+#include <i386/cpuid.h>
 #include <i386/locks.h> /* LcksOpts */
 #ifdef __i386__
 #include <i386/cpu_capabilities.h>
