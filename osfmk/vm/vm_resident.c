@@ -395,7 +395,6 @@ vm_page_set_colors( void )
 		
 	/* the count must be a power of 2  */
 	if ( ( n & (n - 1)) != 0  )
-        /* R:A:W:X86 - no Kernel Panic on FX4100 & FX6100 */
 		printf("vm_page_set_colors");
 	
 	vm_colors = n;

@@ -157,6 +157,8 @@
 #include <kern/kern_types.h>
 #include <mach/machine.h>
 
+extern boolean_t	IsAmdCPUID(void);
+extern boolean_t	IsIntelCPUID(void);
 
 typedef enum { eax, ebx, ecx, edx } cpuid_register_t;
 static inline void

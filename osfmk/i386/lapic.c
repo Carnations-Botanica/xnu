@@ -268,8 +268,8 @@ lapic_init(void)
 
 	lapic_ops->init();
 
-	if ((LAPIC_READ(VERSION)&LAPIC_VERSION_MASK) < 0x14) {
-		panic("Local APIC version 0x%x, 0x14 or more expected\n",
+	if ((LAPIC_READ(VERSION)&LAPIC_VERSION_MASK) < 0x10) {
+		printf("Local APIC version 0x%x, 0x14 or more expected\n",
 			(LAPIC_READ(VERSION)&LAPIC_VERSION_MASK));
 	}
 

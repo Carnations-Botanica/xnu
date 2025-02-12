@@ -29,6 +29,7 @@
 #include <mach/machine.h>
 #include <mach/processor.h>
 #include <kern/kalloc.h>
+#include <i386/cpuid.h>
 #include <i386/cpu_affinity.h>
 #include <i386/cpu_topology.h>
 #include <i386/cpu_threads.h>
@@ -58,6 +59,15 @@ static x86_affinity_set_t *find_cache_affinity(x86_cpu_cache_t *L2_cachep);
 
 x86_affinity_set_t	*x86_affinities = NULL;
 static int		x86_affinity_count = 0;
+
+// royalgraphx: dummy func that doesn't do any actual checks
+// This assumes you're going to boot on an AMD CPU so it returns false
+static int
+IsIntelCPU(void) 
+{
+	DBG("IsIntelCPU dummy func called! Returning FALSE!\n");
+    return 0;
+}
 
 /*
  * cpu_topology_sort() is called after all processors have been registered
@@ -168,8 +178,25 @@ cpu_topology_sort(int ncpus)
 		x86_cpu_cache_t		*LLC_cachep;
 		x86_affinity_set_t	*aset;
 
-		LLC_cachep = lcpup->caches[topoParms.LLCDepth];
-		assert(LLC_cachep->type == CPU_CACHE_TYPE_UNIF);
+        if (IsIntelCPU())
+		{
+			LLC_cachep = lcpup->caches[topoParms.LLCDepth];
+			DBG("Intel CPU! setting LLC_cachep to: %p, type: %d, size: %u\n", 
+					LLC_cachep,
+					LLC_cachep->type,
+					LLC_cachep->cache_size);
+		}
+		else
+		{
+			LLC_cachep = lcpup->caches[topoParms.LLCDepth+1];
+			DBG("AMD CPU! setting LLC_cachep to: %p, type: %d, size: %u\n", 
+					LLC_cachep, 
+					LLC_cachep->type, 
+					LLC_cachep->cache_size);
+		}
+
+		//assert(LLC_cachep->type == CPU_CACHE_TYPE_UNIF);
+		
 		aset = find_cache_affinity(LLC_cachep); 
 		if (aset == NULL) {
 			aset = (x86_affinity_set_t *) kalloc(sizeof(*aset));
